@@ -27,7 +27,10 @@ for i, date_page in enumerate(st.session_state.dates):
 
 # 輸出行程為 PPT
 if st.button("生成 PPT"):
-    prs = Presentation()
+    # 載入 PPT 模板
+    prs = Presentation("template.pptx")
+
+    # 添加旅遊行程內容
     for date_page in st.session_state.dates:
         slide_layout = prs.slide_layouts[1]
         slide = prs.slides.add_slide(slide_layout)
