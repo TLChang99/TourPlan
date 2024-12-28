@@ -9,7 +9,7 @@ st.title("旅遊行程編排工具")
 # 側欄選項
 st.sidebar.title("新增旅遊日期頁面")
 if st.sidebar.button("新增日期頁面"):
-    st.session_state.dates = st.session_state.get("dates", []) + [{"date": "", "activities": []}]
+    st.session_state.dates = st.session_state.get("dates", []) + [{"date": "", "activities": [], "layout": "文字說明頁"}]
 
 # 顯示日期頁面
 if "dates" not in st.session_state:
@@ -18,6 +18,7 @@ if "dates" not in st.session_state:
 for i, date_page in enumerate(st.session_state.dates):
     st.subheader(f"日期頁面 {i+1}")
     date_page["date"] = st.text_input(f"日期 {i+1}", date_page.get("date", ""))
+    date_page["layout"] = st.selectbox(f"選擇頁面版型 {i+1}", ["首頁", "文字說明頁", "圖片說明頁", "對比說明頁", "尾頁"], index=["首頁", "文字說明頁", "圖片說明頁", "對比說明頁", "尾頁"].index(date_page.get("layout", "文字說明頁")))
     st.write("活動：")
     for j, activity in enumerate(date_page.get("activities", [])):
         activity["name"] = st.text_input(f"活動 {j+1} 名稱", activity.get("name", ""))
@@ -61,3 +62,8 @@ if st.button("生成 PPT"):
         file_name="旅遊行程.pptx",
         mime="application/vnd.openxmlformats-officedocument.presentationml.presentation"
     )
+
+    # 顯示生成的 PPT 頁面預覽
+    st.sidebar.subheader("生成的 PPT 頁面預覽")
+    for i, date_page in enumerate(st.session_state.dates):
+        st.sidebar.write(f"頁面 {i+1}: {date_page['layout']}")
