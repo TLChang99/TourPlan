@@ -25,10 +25,13 @@ for i, date_page in enumerate(st.session_state.dates):
     if st.button(f"新增活動 {i+1}"):
         date_page.setdefault("activities", []).append({"name": "", "description": ""})
 
+# 上傳 PPT 模板文件
+uploaded_file = st.file_uploader("選擇 PPT 模板文件", type=["pptx"])
+
 # 輸出行程為 PPT
-if st.button("生成 PPT"):
-    # 載入 PPT 模板
-    prs = Presentation("template.pptx")
+if st.button("生成 PPT") and uploaded_file is not None:
+    # 載入上傳的 PPT 模板文件
+    prs = Presentation(uploaded_file)
 
     # 添加旅遊行程內容
     for date_page in st.session_state.dates:
